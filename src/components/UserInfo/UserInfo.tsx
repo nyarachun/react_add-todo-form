@@ -2,6 +2,7 @@ import React from 'react';
 
 interface Prop {
   user: {
+    id: number;
     name: string;
     email: string;
   };

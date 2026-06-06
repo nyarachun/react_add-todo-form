@@ -3,7 +3,7 @@ import { TodoInfo, Todo } from '../TodoInfo/TodoInfo';
 
 interface Prop {
   items?: Todo[];
-  todos?: Todo[]; // Додаємо підстраховку для специфічного тесту Мате
+  todos?: Todo[];
 }
 
 export const TodoList: React.FC<Prop> = ({ items = [], todos = [] }) => {
@@ -11,8 +11,8 @@ export const TodoList: React.FC<Prop> = ({ items = [], todos = [] }) => {
 
   return (
     <section className="TodoList">
-      {finalTodos.map(el => (
-        <TodoInfo todo={el} key={el.id} />
+      {finalTodos.map(todoItem => (
+        <TodoInfo todo={todoItem} key={todoItem.id} />
       ))}
     </section>
   );

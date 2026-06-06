@@ -6,7 +6,7 @@ import todosFromServer from './api/todos';
 import { Todo } from './components/TodoInfo/TodoInfo';
 
 const initialTodos: Todo[] = todosFromServer.map(todo => {
-  const foundUser = usersFromServer.find(u => u.id === todo.userId);
+  const foundUser = usersFromServer.find(user => user.id === todo.userId);
 
   const processedTodo: Todo = {
     ...todo,
@@ -15,6 +15,7 @@ const initialTodos: Todo[] = todosFromServer.map(todo => {
 
   if (foundUser) {
     processedTodo.user = {
+      id: foundUser.id,
       name: foundUser.name,
       username: foundUser.username,
       email: foundUser.email,
@@ -31,18 +32,14 @@ export const App = () => {
   const [userError, setUserError] = useState(false);
   const [titleError, setTitleError] = useState(false);
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const cleanValue = e.target.value.replace(
-      /[^a-zA-Zа-яА-ЯёЁіІїЇєЄґҐ0-9 ]/g,
-      '',
-    );
-
+  const handleTitleChange = (changeEvent: React.ChangeEvent<HTMLInputElement>) => {
+    const cleanValue = changeEvent.target.value.replace(/[^a-zA-Zа-яА-ЯёЁіІїЇєЄґҐ0-9 ]/g, '');
     setTitle(cleanValue);
     setTitleError(false);
   };
 
-  const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setUserId(Number(e.target.value));
+  const handleUserChange = (changeEvent: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserId(Number(changeEvent.target.value));
     setUserError(false);
   };
 
@@ -64,8 +61,8 @@ export const App = () => {
       return;
     }
 
-    const foundUser = usersFromServer.find(el => el.id === userId);
-    const allId = todos.map(el => el.id);
+    const foundUser = usersFromServer.find(element => element.id === userId);
+    const allId = todos.map(todoItem => todoItem.id);
     const newId = allId.length > 0 ? Math.max(...allId) + 1 : 1;
 
     if (!foundUser) {
@@ -78,6 +75,7 @@ export const App = () => {
       completed: false,
       userId: userId,
       user: {
+        id: foundUser.id,
         name: foundUser.name,
         username: foundUser.username,
         email: foundUser.email,
@@ -111,10 +109,12 @@ export const App = () => {
             value={userId}
             onChange={handleUserChange}
           >
-            <option value="0">Choose a user</option>
-            {usersFromServer.map(el => (
-              <option key={el.id} value={el.id}>
-                {el.name}
+            <option value="0">
+              Choose a user
+            </option>
+            {usersFromServer.map(element => (
+              <option key={element.id} value={element.id}>
+                {element.name}
               </option>
             ))}
           </select>
