@@ -8,16 +8,20 @@ import { Todo } from './components/TodoInfo/TodoInfo';
 const initialTodos: Todo[] = todosFromServer.map(todo => {
   const foundUser = usersFromServer.find(u => u.id === todo.userId);
 
-  return {
+  const processedTodo: Todo = {
     ...todo,
-    user: foundUser
-      ? {
-          name: foundUser.name,
-          username: foundUser.username,
-          email: foundUser.email,
-        }
-      : undefined,
+    user: undefined,
   };
+
+  if (foundUser) {
+    processedTodo.user = {
+      name: foundUser.name,
+      username: foundUser.username,
+      email: foundUser.email,
+    };
+  }
+
+  return processedTodo;
 });
 
 export const App = () => {
