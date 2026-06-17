@@ -32,13 +32,21 @@ export const App = () => {
   const [userError, setUserError] = useState(false);
   const [titleError, setTitleError] = useState(false);
 
-  const handleTitleChange = (changeEvent: React.ChangeEvent<HTMLInputElement>) => {
-    const cleanValue = changeEvent.target.value.replace(/[^a-zA-Zа-яА-ЯёЁіІїЇєЄґҐ0-9 ]/g, '');
+  const handleTitleChange = (
+    changeEvent: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const cleanValue = changeEvent.target.value.replace(
+      /[^a-zA-Zа-яА-ЯёЁіІїЇєЄґҐ0-9 ]/g,
+      '',
+    );
+
     setTitle(cleanValue);
     setTitleError(false);
   };
 
-  const handleUserChange = (changeEvent: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleUserChange = (
+    changeEvent: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
     setUserId(Number(changeEvent.target.value));
     setUserError(false);
   };
@@ -93,7 +101,9 @@ export const App = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="title-input">Title</label>
           <input
+            id="title-input"
             type="text"
             data-cy="titleInput"
             placeholder="Please enter a title"
@@ -104,14 +114,15 @@ export const App = () => {
         </div>
 
         <div className="field">
+          {/* Додали label та id */}
+          <label htmlFor="user-select">Assignee</label>
           <select
+            id="user-select"
             data-cy="userSelect"
             value={userId}
             onChange={handleUserChange}
           >
-            <option value="0">
-              Choose a user
-            </option>
+            <option value="0">Choose a user</option>
             {usersFromServer.map(element => (
               <option key={element.id} value={element.id}>
                 {element.name}
